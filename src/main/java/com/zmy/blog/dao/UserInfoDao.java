@@ -9,7 +9,22 @@ import com.zmy.blog.entity.UserInfo;
 
 public interface UserInfoDao {
     /**
+     * 新增
+     */
+    int addUserInfo(UserInfo userInfo);
+
+    /**
      * 查询
      */
     UserInfo getUserInfoById(String id);
+
+    /***
+     * 登录
+     */
+    UserInfo loginUser(UserInfo userInfo);
+
+    /**
+     * 用户名是否存在
+     */
+    int isUserNameExist(String userName);
 }

@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zmy.blog.dao.UserInfoDao" >
-  <select id="getUserInfoById" resultType="UserInfo">
-    select * from UserInfo where id = #{id}
+  <resultMap id="user" type="UserInfo">
+    <id column="id" property="id"/>
+    <result property="username" column="userName"/>
+    <result property="nickName" column="nickName"/>
+    <result property="headPic" column="headPic"/>
+    <result property="roleId" column="roleId"/>
+    <result property="createTime" column="createTime"/>
+    <result property="isDel" column="isDel"/>
+  </resultMap>
+
+  <insert id="addUserInfo" parameterType="UserInfo">
+    insert into UserInfo(id, userName, nickName, headPic, roleId, salt, password, createTime, isDel)
+    values(#{id}, #{userName}, #{nickName}, #{headPic}, #{roleId}, #{salt}, #{password}, #{createTime}, #{isDel})
+  </insert>
+
+  <select id="getUserInfoById" resultMap="user">
+    select * from UserInfo where id = #{id} and isDel = 0
+  </select>
+
+  <select id="loginUser" resultMap="user">
+    select * from UserInfo where userName = #{userName} and password = #{password} and isDel = 0
+  </select>
+
+  <select id="isUserNameExist" resultType="int">
+    select count(1) from UserInfo where userName = #{userName} and isDel = 0
   </select>
 </mapper>
