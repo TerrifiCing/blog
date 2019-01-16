@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class BlogConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry viewControllerRegistry){
-        viewControllerRegistry.addViewController("/").setViewName("index");
-        viewControllerRegistry.addViewController("/index").setViewName("index");
+        viewControllerRegistry.addViewController("/loginIndex").setViewName("loginIndex");
     }
 }

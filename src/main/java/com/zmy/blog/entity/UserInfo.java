@@ -11,7 +11,7 @@ public class UserInfo {
     private String id;
 
     /**
-     * 用户名 4-20
+     * 用户名 2-20
      */
     private String userName;
 

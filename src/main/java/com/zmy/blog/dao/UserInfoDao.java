@@ -18,13 +18,13 @@ public interface UserInfoDao {
      */
     UserInfo getUserInfoById(String id);
 
+    /**
+     * 根据用户名查询
+     */
+    UserInfo getUserInfoByUserName(String userName);
+
     /***
      * 登录
      */
     UserInfo loginUser(UserInfo userInfo);
-
-    /**
-     * 用户名是否存在
-     */
-    int isUserNameExist(String userName);
 }

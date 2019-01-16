@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zmy.blog.dao.TokenDao" >
+  <insert id="addToken" parameterType="Token">
+    insert into Token(id, userId, token, expired, isValid)
+    value(#{id}, #{userId}, #{token}, #{expired}, #{isValid})
+  </insert>
+
+  <select id="getTokenByToken" resultType="Token">
+    select * from Token where token = #{token}
+  </select>
+
+  <update id="updateTokenStatus">
+    update Token set status = #{1} where token = #{0}
+  </update>
+</mapper>

@@ -1,9 +1,12 @@
 package com.zmy.blog.service.impl;
 
 import com.zmy.blog.dao.RoleInfoDao;
+import com.zmy.blog.dao.TokenDao;
 import com.zmy.blog.dao.UserInfoDao;
 import com.zmy.blog.entity.UserInfo;
+import com.zmy.blog.entity.enumEntity.Msg;
 import com.zmy.blog.entity.enumEntity.RoleCode;
+import com.zmy.blog.service.TokenService;
 import com.zmy.blog.service.UserService;
 import com.zmy.blog.util.PasswordUtil;
 import com.zmy.blog.util.ValidatorUtil;
@@ -27,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleInfoDao roleInfoDao;
+
+    @Autowired
+    private TokenService tokenService;
 
     /**
      * 登录
@@ -54,14 +60,17 @@ public class UserServiceImpl implements UserService {
             return result;
         }
 
-        UserInfo loginUser = userInfoDao.loginUser(userInfo);
-        if(loginUser == null){
+        UserInfo user = userInfoDao.getUserInfoByUserName(userInfo.getUserName());
+
+        if(!user.getPassword().equals(PasswordUtil.getMD5(userInfo.getPassword() + user.getSalt()))){
             result.put("result", false);
             result.put("msg", "密码错误");
             return result;
         }else {
             //登录成功
+            result.put("msg", Msg.login_success.getValue());
             //加token
+            result.put("token", tokenService.addLoginToken(user.getId()).getToken());
         }
         return result;
     }
@@ -159,6 +168,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean isUserNameExist(String userName) {
-        return userInfoDao.isUserNameExist(userName) == 1;
+        return userInfoDao.getUserInfoByUserName(userName) != null;
     }
 }
